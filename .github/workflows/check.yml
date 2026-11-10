@@ -1,0 +1,15 @@
+name: Check shared standards
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify published document and tool inventory
+        run: sha256sum -c SHA256SUMS
+      - name: Verify pinned synchronization and offline checks
+        run: python3 -m unittest discover -s tests
