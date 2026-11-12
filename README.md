@@ -1,6 +1,6 @@
 # WoW Addon Standards
 
-Version **0.1.0** — extracted 2026-11-10 from an actively developed Forever addon. This is a portable starting kit, not a runtime library or an assertion of universal Blizzard API compatibility.
+Version **0.1.1** — updated 2026-11-12; originally extracted 2026-11-10 from an actively developed Forever addon. This is a portable starting kit, not a runtime library or an assertion of universal Blizzard API compatibility.
 
 ## Contents
 
@@ -53,7 +53,7 @@ Illustrative lock shape (replace placeholders before use):
 {
   "repository": "<standards repository URL>",
   "commit": "<full reviewed commit SHA>",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "files": {
     "AGENTS.md": "<sha256 of the shared document>",
     "FIELD_NOTES.md": "<sha256 of the shared document>"
