@@ -1,5 +1,13 @@
 # Standards changelog
 
+## 0.1.3 — 2026-11-18
+
+- Share texture/atlas UV, geometry/layer and content-anchor lessons, separating the approved alert correction from the unconfirmed date fix.
+- Add independent-view notifications, shared rendering, cancellable calendar rollover and stale-callback guidance.
+- Record stable-ID navigation, row-state reuse and authoritative progress/completion boundaries.
+- Document build-stage diagnosis and bounded, digest-verified source fallback without prescribing one tool-installation strategy.
+- Keep source/API evidence, automated preview checks and actual owner validation explicitly distinct.
+
 ## 0.1.2 — 2026-11-18
 
 - Record the native-layout dispatch/secret-value regression, Edit Mode handling and accepted delayed-layout limitation.

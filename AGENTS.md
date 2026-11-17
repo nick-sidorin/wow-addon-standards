@@ -1,6 +1,6 @@
 # Shared AGENTS.md — WoW addon development
 
-Standards version: **0.1.2**, 2026-11-18. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
+Standards version: **0.1.3**, 2026-11-18. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
 
 ## Working agreement
 
@@ -16,6 +16,8 @@ Standards version: **0.1.2**, 2026-11-18. Portable contributor instructions; pro
 - Forever shares APIs with Retail but is not guaranteed compatible with Retail or Classic Era. An interface number, function name, registered XML template or exported mixin is not proof of permission or behavior.
 - Research the matching client's UI source/API, then verify capabilities in that client. Retail documentation and other addons are useful leads; identify the branch/build and respect source licenses when reusing code.
 - Separate saved state, effects, UI, localization and packaging. Keep dependencies explicit and avoid unnecessary runtime libraries. Initialize optional integrations only when needed.
+- Keep independent views of the same data synchronized through a shared model and change notifications; hiding a dashboard must not freeze an otherwise visible shortcut. Reuse the renderer/palette and refresh on relevant activity, configuration, reset and context changes. For addon-owned calendar rollover, prefer one cancellable deadline over continuous polling; reject stale callbacks after hide/rebuild.
+- Derive numeric progress and completion from the same raw getter/threshold. Clamp or round presentation without changing authoritative totals or inferring completion from rounded text. Keep historical earned state separate from a current value that can later fall, such as a streak.
 - Make disabled features inert where practical. Installing hooks, creating native providers or filling shared caches can have side effects even when the checkbox is OFF.
 - Account for load-on-demand Blizzard UI, missing APIs, nil pooled entries, reused/reparented frames, combat, logout and reload. Hook once per object and reconcile reuse without leaking handlers or state.
 - Prefer events and coalesced deferred refreshes to perpetual polling. If polling is necessary, limit it to the visible relevant view, use an interval and stop it when hidden, unloading or in combat where applicable.
@@ -39,6 +41,8 @@ Standards version: **0.1.2**, 2026-11-18. Portable contributor instructions; pro
 - Build settings in the client's native AddOns settings category when supported. A dedicated feature window can coexist with native settings; do not duplicate settings state across two interfaces.
 - Prefer native widgets, font objects, atlases, masks, borders and button textures available in the target client. Inspect authored atlas dimensions and maintain aspect ratios. Use the correct large-button art or three-slice/nine-slice construction instead of stretching a small button.
 - Game art availability does not make every XML template safe to inherit. Glue/login UI templates may not exist in the loaded game UI. Keep a visually consistent, capability-checked fallback without duplicate borders.
+- When switching between texture sheets and atlases, reset the appropriate texture coordinates explicitly; preserve authored dimensions and draw layers. For missing/misaligned labels, inspect text/visibility, parent frame level, draw layer and anchor bounds. Atlas rectangles can include transparent padding, so they need not be suitable content anchors.
+- Navigate and retain selection by stable item IDs across sorting/reused rows, not captured row indices. Reapply all data-dependent visibility, tint and shadow state on rebind; preserve manual scroll during ordinary refresh. Notifications should open the item currently displayed and dismiss only the intended queue entry; clean up only tooltips owned by that widget.
 - Use a clear visual hierarchy, aligned margins and button groups. Keep explanatory prose concise. Avoid repeating a selection in a card, status line and CTA unless each has a distinct purpose.
 - Equal-rank options use the same typography and indentation. Prefer a consistent action direction within a group, such as all “Hide …” or all “Show …”. Use a dependent child only when the underlying setting really depends on its parent.
 - Put frequent/high-level actions before detailed options; support actions can go last. Make clickable actions recognizable as buttons, including secondary actions.
@@ -94,6 +98,7 @@ Standards version: **0.1.2**, 2026-11-18. Portable contributor instructions; pro
 
 - Use a branch and PR for changes to protected `main`; default merge strategy is squash. Never bypass protections or force-push main. Respect explicit preview/merge/release scope and existing owner authorization.
 - Verify the exact final PR head's CI. Independently verify whether branch protection actually requires the passing check; a green check and an enforced check are different facts. Do not silently change repository protection policy.
+- Distinguish runner/tool-installation failures from failing project gates before retrying. Pin required build tools and, where stability needs it, the runner image; review upgrades deliberately. Use bounded transport retries and require the same pinned digest for every allowed source mirror before extraction/execution. Do not bypass a checksum mismatch, weaken TLS or mark skipped tests as passing.
 - Keep experiments out of a stable release. Reconcile parallel changes before merging and preserve the accepted rollback of abandoned work.
 - Treat the TOC as the ordered source-code manifest. The packager must also include XML-referenced includes/scripts and an explicit inventory of runtime assets, such as textures/fonts, plus the license as appropriate. A Lua-only or TOC-only ZIP is insufficient for addons with artwork.
 - Validate archive paths, missing/duplicate entries, version consistency, source bytes, corrupt members and exactly one intended addon root. Reject absolute paths and traversal. Exclude tests, internal instructions, credentials and unrelated repository files.
