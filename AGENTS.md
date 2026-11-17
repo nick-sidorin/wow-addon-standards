@@ -1,6 +1,6 @@
 # Shared AGENTS.md — WoW addon development
 
-Standards version: **0.1.1**, 2026-11-12. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
+Standards version: **0.1.2**, 2026-11-18. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
 
 ## Working agreement
 
@@ -58,10 +58,19 @@ Standards version: **0.1.1**, 2026-11-12. Portable contributor instructions; pro
 - Cleanup cannot be guaranteed after a crash, force quit or once the addon has been disabled. Explain restoration accurately and offer a deliberate recovery action if the addon changes persistent game settings.
 - Add a support button with a copyable project/Issues URL and localized instructions. Do not promise browser launch or automatic report submission from the addon.
 
+## Context-dependent effects and native widget lifecycle
+
+- Keep configured preferences separate from effective behavior. A temporary context exception must not rewrite SavedVariables, apply a preset or erase per-item permissions. Native checkboxes should display the saved choice; effect consumers can use an effective accessor. Specify the exact participating effects and verify that unrelated effects/refreshers remain unchanged.
+- Classify context through the matching client's native API rather than group membership or localized zone names. Handle missing, throwing and unknown results conservatively according to the feature contract. Coalesce transition work, recheck loading/combat/logout in the deferred callback, and preserve manual changes made during the exception. Defaults, preset and explicit-reset behavior require separate product decisions.
+- Reuse the existing native timer/data lifecycle when appropriate. A reload must recover authoritative remaining time; do not restart a saved duration or persist session-relative uptime as a durable deadline. Missing pre-acceptance metadata does not prove a quest is untimed; avoid inventing warnings from guessed text/type.
+- When one child must remain visible inside a transparent native parent, inspect supported alpha-inheritance and scoped input exemptions before reparenting or duplicating it. Preserve native parentage, scripts, pools, tooltips and clicks where possible; restore exact modified state. A permitted cosmetic change is not permission to invoke its native updater/layout/button callbacks.
+- For native HUD hiding, account for Edit Mode and the latest native visibility intent. Restore editability while editing and reconcile after exit, deferring protected changes outside combat. Inspect actual target-client wrappers: ordinary-looking Show/Hide calls may also mutate layout state. Do not copy a build-specific internal-method workaround to another widget/client without inspecting it.
+
 ## Taint, protected actions and native gamepad
 
 - Do not replace global return-value APIs or protected binding/focus functions to force compatibility. Prefer narrowly scoped hooks and addon-owned UI. Avoid mutating native shared caches, shared widget pools and global navigation registries without verified permission.
 - A native helper may write into a cache later consumed by secure UI. The eventual blocked action can be far from the initiating addon call. Deferring a call or wrapping it in `pcall` does not make it secure or remove taint.
+- A native layout notification can synchronously dispatch into action buttons and shared anchor tables under addon execution, causing later secret-value/cooldown or unit-frame errors. Calling it once, outside combat or after a timer does not make that route safe. Accept documented delayed native layout where necessary; do not simulate abilities, toggle gameplay state or guess pixel positions to force refresh.
 - Preserve inherited scripts when a permitted template requires them; `SetScript` can erase native behavior. `HookScript` is useful but is not proof of taint safety or permission to instantiate the template.
 - **Confirmed Forever limitation:** `GamepadSecureBaseDialogTemplate` is registered but addon `CreateFrame` inheritance fails with `Cannot create a forbidden frame from a tainted context`, in both mouse and Gamepad Beta modes. Do not use it for addon dialogs. This does not imply every template or every client has the same restriction.
 - Do not call the native gamepad focus/binding manager directly as an unverified substitute. Ordinary addon-frame navigation requires its own validated design. Do not advertise native controller support merely because mouse interaction works with Gamepad Beta enabled.
@@ -93,12 +102,14 @@ Standards version: **0.1.1**, 2026-11-12. Portable contributor instructions; pro
 - A publisher should rerun the final gates, refuse accidental tag reuse and build the installable archive from the exact tagged commit. Tag creation, release uploads and retry behavior must be explicit; inspect partial runs before retrying.
 - Use the existing CurseForge integration/webhook if configured. Its source packager can build independently of the GitHub ZIP: validate `.pkgmeta` exclusions, folder moves and runtime assets separately. Do not copy another addon's `.pkgmeta` paths blindly or add a second uploader unnecessarily.
 - Confirm the GitHub release is published, its tag targets the intended commit and its uploaded asset matches the verified build. Check CurseForge separately: GitHub success is not proof the webhook/packager/moderation finished. Report pending visibility without inventing completion.
+- For an authorized emergency rollback, publish a higher version containing a known-good runtime so installed clients can update. Keep existing tags fixed, retain user preferences/recovery data, and compare every packaged runtime file against the chosen stable revision with only explicit version/metadata differences. Keep unverified fixes separate. Withdrawing a GitHub release does not withdraw a CurseForge file; verify each distribution independently and document any required full client restart.
 - Every release handoff includes version, important changes/limitations, direct installable ZIP, release page, concise verification evidence and CurseForge publication status. Include copy-ready **full description Markdown**, **short description**, and the project's direct **description editor URL**, plus the public project URL. Do not substitute the repository README for listing copy.
 
 ## Upgrade notices and new features
 
 - Read the installed version from actual addon metadata. Keep the highest seen version account-wide where appropriate; avoid duplicate notices on reloads, alternate characters and downgrades. Do not consume notice state before world readiness or after logout starts.
 - Deliver a short localized notice after loading, when the player can see it. Never open settings automatically just because the version changed.
+- If a feature was withdrawn and later reintroduced, explicitly decide its upgrade-notice metadata for users returning from the rollback. Preserve historical introduction records and saved choices; do not infer that the feature is already present from a previously seen version alone.
 - Track feature introductions explicitly by shipping version and stable setting IDs. For skipped versions, scan the full `(previous, installed]` interval. Fix-only updates use neutral “updated” wording; do not infer new features from a version number.
 - Use supported native per-setting “New” hooks on addon-owned rows if available. Keep seen/pending state owned by the addon and mark a setting seen when the actual row appears. Never write custom IDs into Blizzard's shared feature/new-setting registries.
 - On clients lacking the native badge API, preserve working controls without claiming badges are available. A first install need not mark every setting as a new upgrade.
