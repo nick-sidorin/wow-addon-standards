@@ -1,6 +1,6 @@
-# Field notes — verified patterns and limits
+# Field notes — patterns, evidence and limits
 
-Evidence snapshot: **2026-11-10**. These examples explain the rules; they are not code to paste into a different addon. The principal source project targets WoW: Forever. Recheck APIs for every supported client/build.
+Evidence snapshot: **2026-11-18**; individual findings are dated below. These examples explain the rules; they are not code to paste into a different addon. The principal source project targets WoW: Forever. Recheck APIs for every supported client/build.
 
 ## 1. Registered native templates may be forbidden
 
@@ -71,3 +71,41 @@ For achievement-style progress, the source already defines `AchievementProgressB
 **Reuse:** start with documented APIs and existing components, then verify whether they can safely own the addon's data and lifecycle. Prefer direct permitted reuse. If that is unsuitable, document the reason and reuse the smallest safe native pieces before inventing a custom design. Record the source and validation boundary in the consuming project.
 
 Source references: [Forever shared UI templates](https://github.com/Gethe/wow-ui-source/blob/forever/Interface/AddOns/Blizzard_SharedXML/Mainline/SharedUIPanelTemplates.xml), [Forever achievement components](https://github.com/Gethe/wow-ui-source/blob/forever/Interface/AddOns/Blizzard_AchievementUI/Mainline/Blizzard_AchievementUI.xml), and [generated widget API documentation](https://github.com/Gethe/wow-ui-source/tree/forever/Interface/AddOns/Blizzard_APIDocumentationGenerated). These are research references, not a guarantee of permission to instantiate every exported template.
+
+## 10. A native layout refresh can taint unrelated gameplay UI
+
+**Target/evidence:** WoW: Forever, reported 2026-11-11/12; exact client build was not recorded. Hiding the XP bar left space until Blizzard's next layout pass. An addon-triggered `EditModeManager.UpdateBottomActionBarPositions` notification made the space collapse immediately and initially passed owner testing. Later, ordinary ability use repeatedly raised secret-value errors in `ActionButton` cooldown updates; entering Edit Mode also raised `CompactUnitFrame` errors/protected-action warnings. A single native event dispatch was therefore not an acceptable layout API merely because it appeared to fix positioning.
+
+The owner subsequently verified a candidate without the addon-originated layout dispatch, with hiding suspended during Edit Mode. The reported errors no longer reproduced. The remaining gap until native layout updates was explicitly accepted. A `ForceUpdateAction` probe did not fix spacing. Source research found other addons either accepting the same delayed layout or owning a replacement layout; neither establishes a safe generic refresh for the preserved native layout.
+
+**Reuse:** inspect the complete callback chain and native state it writes, including frame visibility wrappers and anchor tables. Frequency and combat deferral do not remove taint. Do not replace a missing safe layout API with fake pet actions, gameplay toggles or hardcoded anchors. Test combat cooldowns and Edit Mode as distinct scenarios. This is evidence for the reported path, not a universal ban on layout APIs or proof of universal taint safety.
+
+Evidence: [original HUD change #41](https://github.com/nick-sidorin/no-quest-hints-forever/pull/41), [fix candidate #43](https://github.com/nick-sidorin/no-quest-hints-forever/pull/43), [verified-runtime reintroduction #45](https://github.com/nick-sidorin/no-quest-hints-forever/pull/45). Matching source research used Gethe/wow-ui-source `forever` commit `4cd0ab752a77164f654ccbca9d0c1fe8dafceebe`.
+
+## 11. Preserve the native timer instead of reconstructing its appearance and clock
+
+**Target/evidence:** WoW: Forever, owner-tested 2026-11-11; exact client build was not recorded. A custom compact quest timer was rejected visually. Reusing the actual `QuestTimerFrame` preserved its native border, localized countdown, quest-title tooltip and click-to-open behavior. With the tracker transparent, supported ignore-parent-alpha behavior and a narrowly scoped input exemption kept only the timer usable. An addon-owned anchor/header drag handle changed placement without replacing its parent, native countdown, pools or button scripts. The owner confirmed the result worked and looked original.
+
+Native timer lifecycle remains authoritative across reload; the addon does not save/restart its own countdown. During one quest offer, `C_QuestLog.GetTimeAllowed` yielded no pre-acceptance value even though the accepted quest was timed. That observation does not identify all timed quests or establish an API-wide absence. The full journal already contained Blizzard's own timer, so no duplicate annotation was needed.
+
+**Reuse:** inspect the existing component and data owner before copying a renderer. Keep position persistence separate from authoritative gameplay time. Treat unavailable offer metadata as unknown and preserve existing journal content. Capability-check and restore scoped frame state; this example is not permission to call native update/layout routines from addon execution.
+
+Evidence: [native-timer release 1.5.0](https://github.com/nick-sidorin/no-quest-hints-forever/releases/tag/v1.5.0); matching source at the commit in section 10, `Blizzard_QuestTimer` and generated quest API documentation.
+
+## 12. A rollback is an update, not a moved tag
+
+**Target/evidence:** WoW: Forever addon distribution, 2026-11-12. After the HUD regression, GitHub Actions had an outage and a candidate fix was not yet owner-verified. The emergency 1.6.1 update restored the known-good 1.5.0 runtime, with explicit version differences, rather than bundling the unverified candidate. Existing HUD preferences remained stored but inert. Making the GitHub 1.6.0 release a draft did not remove the already published CurseForge file; its tag remained fixed. A later owner-tested candidate was reintroduced as 1.7.0 with explicit feature-notice metadata.
+
+**Reuse:** publish an authorized higher-version known-good package for update delivery, verify packaged bytes and preserve recovery/user choices. Distinguish candidate, tested fix and published result. Verify separate distributors independently; do not move an existing tag or equate withdrawal on one service with rollback everywhere. Do not open duplicate PRs or bypass checks solely because a runner is queued; inspect service/run status and keep the recovery procedure explicit.
+
+Evidence: [rollback 1.6.1](https://github.com/nick-sidorin/no-quest-hints-forever/releases/tag/v1.6.1), [reintroduction 1.7.0](https://github.com/nick-sidorin/no-quest-hints-forever/releases/tag/v1.7.0), and #43/#45 above.
+
+## 13. Temporary context exceptions need an effect boundary
+
+**Target/evidence:** WoW: Forever source/API research and automated preview tests, 2026-11-17; **not yet owner-verified in an instance**. A proposed dungeon/raid exception initially included map/navigation suppression. The owner narrowed it to tooltip lines and NPC names, leaving map/navigation and manual per-quest permissions unchanged. Native `IsInInstance()` supplies both the inside flag and instance type; being in a raid group outdoors is not the same condition.
+
+The preview keeps configured preferences separate from effective accessors. Native checkboxes retain the player's saved choices while selected effects are suspended. Tests cover party/raid vs other/unknown types, reload, combat/loading deferral, personal CVar baselines, failed restoration, manual edits, unchanged quest permissions and no policy-triggered pin refresh. This supports the state-management design, not a claim that native instance rendering or taint safety has been verified.
+
+**Reuse:** specify an explicit participating-effect set. Context changes must not apply a preset, mutate saved flags or refresh unrelated UI. Preserve the player's actual original settings and manual changes. State which evidence is source inspection, automated behavior or actual client observation.
+
+Evidence: [preview #46](https://github.com/nick-sidorin/no-quest-hints-forever/pull/46), head `20be6f617157e3f6e8384f3396785df750713b6c`; generated `InstanceDocumentation.lua` in the Forever UI source.

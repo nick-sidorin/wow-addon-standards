@@ -1,5 +1,13 @@
 # Standards changelog
 
+## 0.1.2 — 2026-11-18
+
+- Record the native-layout dispatch/secret-value regression, Edit Mode handling and accepted delayed-layout limitation.
+- Add native timer lifecycle, authoritative time and missing pre-acceptance metadata guidance.
+- Separate saved configuration from temporary context effects, with explicit scope and untouched unrelated UI.
+- Document higher-version known-good rollback delivery, independent distributor withdrawal and reintroduction notices.
+- Label source research, automated preview evidence and owner-tested scenarios separately; the dungeon/raid preview is not yet client-verified.
+
 ## 0.1.1 — 2026-11-12
 
 - Make documented API and reusable native component discovery the first step for Blizzard-style UI requests.
