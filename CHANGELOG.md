@@ -1,5 +1,9 @@
 # Standards changelog
 
+## 0.1.4 — 2026-11-20
+
+- Trace owner-supplied UI references to the exact widget and active visual state before implementation. Record concrete source evidence and any limits on verification or reuse.
+
 ## 0.1.3 — 2026-11-18
 
 - Share texture/atlas UV, geometry/layer and content-anchor lessons, separating the approved alert correction from the unconfirmed date fix.
