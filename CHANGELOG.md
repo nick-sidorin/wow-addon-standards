@@ -1,5 +1,11 @@
 # Standards changelog
 
+## 0.1.6 — 2026-11-21
+
+- Capture Names in Red lessons on native icon and tab comparisons, PvP attribution, diagnostics packaging, and listing delivery.
+- Document tag-driven CurseForge publishing and webhook diagnosis, and verify the exact required GitHub check on the target branch.
+- Require applying the pinned instructions before development, documentation, packaging, and release work.
+
 ## 0.1.5 — 2026-11-21
 
 - Require separate full/short field files that can be copied in full without maintainer instructions or editor links.

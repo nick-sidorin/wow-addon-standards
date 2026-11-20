@@ -3,13 +3,15 @@
 Copy-ready delivery record. Fill from verified results; never substitute intended status for publication evidence.
 
 - PR and exact merged commit:
+- Configured publisher and trigger:
 - Version/tag and verified target commit:
-- Published release page:
+- Published release or file page for the intended destination:
 - Direct installable ZIP:
 - Archive root and asset SHA-256, if available:
 - Final-head CI result/link:
 - Real-client verification or the owner's previously approved testing waiver:
 - Important changes and accepted limitations:
+- Webhook delivery for the exact tag, if used: <status or unverified>.
 - CurseForge publication: <confirmed public file link OR not yet confirmed; include check time>.
 
 ## Listing copy
