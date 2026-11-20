@@ -1,6 +1,6 @@
 # Shared AGENTS.md — WoW addon development
 
-Standards version: **0.1.6**, 2026-11-21. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
+Standards version: **0.1.7**, 2026-11-21. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
 
 ## Working agreement
 
@@ -107,7 +107,8 @@ Standards version: **0.1.6**, 2026-11-21. Portable contributor instructions; pro
 - Keep experiments out of a stable release. Reconcile parallel changes before merging and preserve the accepted rollback of abandoned work.
 - Treat the TOC as the ordered source-code manifest. The packager must also include XML-referenced includes/scripts and an explicit inventory of runtime assets, such as textures/fonts, plus the license as appropriate. A Lua-only or TOC-only ZIP is insufficient for addons with artwork.
 - Validate archive paths, missing/duplicate entries, version consistency, source bytes, corrupt members and exactly one intended addon root. Reject absolute paths and traversal. Exclude tests, internal instructions, credentials and unrelated repository files.
-- Deliver one usable preview ZIP with `AddonFolder/AddonFolder.toc` immediately inside. GitHub Actions artifacts are already ZIPs: upload the verified extracted addon directory for previews, not a ZIP that produces a ZIP inside the download.
+- Deliver test builds only as installable ZIP artifacts from the pull request's successful CI run for its current head. Include direct links to the artifact and the pull request. If CI fails or the artifact is missing, fix or rerun CI and report any blocker. Local checks can support development. Do not build a local preview ZIP for handoff.
+- Give the owner one preview ZIP with `AddonFolder/AddonFolder.toc` immediately inside. GitHub Actions wraps uploaded files in a ZIP, so upload the verified addon directory directly to avoid a ZIP inside a ZIP.
 - Identify the project's established publisher and trigger before any release action. Keep TOC version, tag, requested version, changelog section and ZIP name consistent. If the project releases through CurseForge's source webhook, push the version tag after the packaging configuration is merged. A manual GitHub Release or package branch is a separate publishing route.
 - A publisher should rerun the final gates, refuse accidental tag reuse and build the installable archive from the exact tagged commit. Tag creation, release uploads and retry behavior must be explicit; inspect partial runs before retrying.
 - Use the existing CurseForge integration/webhook if configured. Its source packager can build independently of the GitHub ZIP: validate `.pkgmeta` exclusions, folder moves and runtime assets separately. Do not copy another addon's `.pkgmeta` paths blindly or add a second uploader unnecessarily.

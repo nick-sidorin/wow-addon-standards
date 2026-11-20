@@ -23,6 +23,7 @@ Before substantive work, read `docs/standards/AGENTS.md`, `docs/standards/FIELD_
 - CI entry point, required status checks and packaging command: **TODO**.
 - Existing release publisher, tag naming and CurseForge integration: **TODO**.
 - Release strategy: branch + PR, squash merge, exact final-head checks. A preview request does not authorize a release; follow explicit owner authorization and any already agreed testing scope.
+- Preview delivery: link to the installable ZIP artifact from the PR's successful CI run for its current head and to the PR itself.
 
 ## Local product decisions
 

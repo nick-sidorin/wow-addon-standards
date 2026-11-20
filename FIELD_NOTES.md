@@ -58,6 +58,8 @@ Early cards had duplicate borders and stretched button art. Reusing authored atl
 
 A GitHub Actions artifact already wraps files in a ZIP; uploading an installable ZIP as an artifact produced a confusing extra archive layer. Preview artifacts now contain the extracted addon folder. Tagged releases expose the canonical installable ZIP directly.
 
+A local Names in Red preview ZIP lacked a link to the PR and its CI result. The PR workflow was adjusted to publish its installable archive during the pull request run. The handoff then pointed to the artifact produced and uploaded by that successful run. [Names in Red preview PR](https://github.com/nick-sidorin/names-in-red/pull/15) · [PR workflow run](https://github.com/nick-sidorin/names-in-red/actions/runs/44827648084)
+
 CurseForge's source packager has separate `.pkgmeta` behavior. Its output can lag GitHub publication. Full listing copy also needs manual editing unless an explicitly configured integration handles it; release automation alone does not update the description.
 
 **Reuse:** validate each packaging route, verify publication separately and hand over copy-ready short/full Markdown with an editor link. Keep concise benefit bullets at the top and separate Issues from Source Code. Never promise that a GitHub release means CurseForge is already public.

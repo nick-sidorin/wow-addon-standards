@@ -1,5 +1,9 @@
 # Standards changelog
 
+## 0.1.7 — 2026-11-21
+
+- Require test ZIP delivery from the pull request's successful CI run and link the exact artifact and PR.
+
 ## 0.1.6 — 2026-11-21
 
 - Capture Names in Red lessons on native icon and tab comparisons, PvP attribution, diagnostics packaging, and listing delivery.
