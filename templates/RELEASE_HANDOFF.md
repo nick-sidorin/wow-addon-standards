@@ -14,8 +14,8 @@ Copy-ready delivery record. Fill from verified results; never substitute intende
 
 ## Listing copy
 
-- Full Markdown: <file/link>.
-- Short description: <file/link; state unchanged if unchanged>.
+- Full Markdown: <file/link containing only the public full description; safe to copy in full>.
+- Short description: <separate plain-text file/link; state unchanged if unchanged>.
 - **Description editor:** <project-specific direct editor link>.
 - Public addon page: <link>.
 - Listing edit status: <manual handoff OR actual confirmed edit; release automation is not evidence>.

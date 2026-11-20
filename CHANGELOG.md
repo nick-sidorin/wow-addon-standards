@@ -1,5 +1,11 @@
 # Standards changelog
 
+## 0.1.5 — 2026-11-21
+
+- Require separate full/short field files that can be copied in full without maintainer instructions or editor links.
+- Split the listing templates and move publishing guidance/navigation into its own document; clarify release handoff links.
+- Order feature bullets by the addon’s core purpose before secondary conveniences.
+
 ## 0.1.4 — 2026-11-20
 
 - Trace owner-supplied UI references to the exact widget and active visual state before implementation. Record concrete source evidence and any limits on verification or reuse.

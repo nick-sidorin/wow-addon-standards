@@ -1,6 +1,6 @@
 # Shared AGENTS.md — WoW addon development
 
-Standards version: **0.1.4**, 2026-11-20. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
+Standards version: **0.1.5**, 2026-11-21. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
 
 ## Working agreement
 
@@ -122,7 +122,8 @@ Standards version: **0.1.4**, 2026-11-20. Portable contributor instructions; pro
 
 ## CurseForge listing contract
 
-- Keep the established **benefits first** layout: title and a short tagline, immediately followed by compact feature bullets. Put optional longer explanations, setup, commands and compatibility details below. Do not lead with a long story or release diary.
+- Keep the established **benefits first** layout: title and a short tagline, immediately followed by compact feature bullets ordered by relevance to the addon’s core purpose. Put secondary conveniences after the core benefits. Put optional longer explanations, setup, commands and compatibility details below. Do not lead with a long story or release diary.
+- Keep the full and short descriptions in separate files whose entire contents can be pasted into their respective fields. The full file contains public Markdown only; the short file contains only its plain-text value. Do not include maintainer notes, copy instructions, editor URLs, field labels or a combined short/full wrapper. Put publishing instructions and maintainer navigation in a separate guide, and exclude all publishing assets from installable packages.
 - The short description is a separate concise plain-text field. Preserve positioning unless the owner requests a change. It must say what the addon does, not promise unverified compatibility; check the platform's current length limit.
 - The full description is copy-ready Markdown, without maintainer notes or editor links inside the public text. Keep language and behavior current, preserve still-valid destinations and remove resolved warnings only with evidence.
 - Include separate prominent **Report a Bug or Suggest a Feature** (direct Issues URL) and **Source Code** (repository root) links. Explain: “Click **New issue** to report a problem or share an idea.” Bug reports should include client/build, addon version and reproduction steps.

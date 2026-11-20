@@ -1,20 +1,3 @@
-# CurseForge listing — <Addon name>
-
-Maintainer notes: replace all placeholders, omit irrelevant sections and remove these notes from public copy. The short description and full Markdown go into separate CurseForge fields. Updating a release does not automatically update this page unless that integration is explicitly configured.
-
-Maintainer navigation (not part of the public description):
-
-- [Edit description](<PROJECT_DESCRIPTION_EDITOR_URL>)
-- [Public addon page](<CURSEFORGE_PUBLIC_URL>)
-
-## Short description
-
-<One concise plain-text description of the player benefit and distinctive capability. Check the field's current length limit. Keep unchanged when positioning is unchanged.>
-
----
-
-## Full description
-
 # <Addon name>
 
 **<One short benefit-led tagline.>**

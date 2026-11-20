@@ -1,6 +1,6 @@
 # WoW Addon Standards
 
-Version **0.1.4** — updated 2026-11-20; originally extracted 2026-11-10 from an actively developed Forever addon. This is a portable starting kit, not a runtime library or an assertion of universal Blizzard API compatibility.
+Version **0.1.5** — updated 2026-11-21; originally extracted 2026-11-10 from an actively developed Forever addon. This is a portable starting kit, not a runtime library or an assertion of universal Blizzard API compatibility.
 
 ## Contents
 
@@ -8,7 +8,9 @@ Version **0.1.4** — updated 2026-11-20; originally extracted 2026-11-10 from a
 - `FIELD_NOTES.md`: the evidence behind the most expensive mistakes and their limits.
 - `templates/LOCAL_AGENTS.md`: root instructions for a consuming addon, including an Azeroth Fitness starting profile.
 - `templates/PROJECT_CONTEXT.md`: local product decisions and verification ledger.
-- `templates/CURSEFORGE_DESCRIPTION.md`: separate short/full listing text, features first.
+- `templates/CURSEFORGE_DESCRIPTION.md`: full public Markdown only, features first.
+- `templates/CURSEFORGE_SHORT_DESCRIPTION.txt`: the short field only.
+- `templates/CURSEFORGE_PUBLISHING.md`: separate maintainer instructions and editor links.
 - `templates/RELEASE_HANDOFF.md`: the owner's release delivery contract.
 - `CHANGELOG.md` and `VERSION`: versioned maintenance of the rules themselves.
 - `tools/standards.py`: explicit synchronization from a reviewed local Git commit and offline integrity checks (Python 3.9+; standard library only).
@@ -53,7 +55,7 @@ Illustrative lock shape (replace placeholders before use):
 {
   "repository": "<standards repository URL>",
   "commit": "<full reviewed commit SHA>",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "files": {
     "AGENTS.md": "<sha256 of the shared document>",
     "FIELD_NOTES.md": "<sha256 of the shared document>"
