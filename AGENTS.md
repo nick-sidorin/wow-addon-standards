@@ -1,6 +1,6 @@
 # Shared AGENTS.md — WoW addon development
 
-Standards version: **0.1.4**, 2026-11-20. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
+Standards version: **0.1.5**, 2026-11-20. Portable contributor instructions; project-specific behavior belongs in the consuming repository's root `AGENTS.md` and `PROJECT_CONTEXT.md`.
 
 ## Working agreement
 
@@ -34,7 +34,8 @@ Standards version: **0.1.4**, 2026-11-20. Portable contributor instructions; pro
 
 ## Blizzard-native visual design
 
-- When the owner asks for Blizzard's visual style or native behavior, first search the matching client's API documentation and UI source for an existing component and supported API. Make this investigation the starting point before implementing a custom visual approximation.
+- Build addons to feel like part of the game. Use the matching client's native implementation wherever it covers the requested appearance or behavior. Write addon-owned code for gaps in what the client provides or allows addons to use.
+- When the owner asks to match Blizzard, inspect the exact implementation in the matching client's source before editing. This applies to UI and other game behavior. Follow the active call path through XML, Lua handlers, inherited mixins, documented APIs and client overrides. Reuse those components directly where possible. Where direct reuse is unavailable, follow the verified source behavior for the portion the addon must implement.
 - Treat a screenshot, video or named addon supplied as a UI reference as a lead to its implementation. Find the exact reference widget in the accessible source before editing the corresponding UI. Trace the requested state through its XML template, inherited widgets and active Lua handlers or engine defaults. For visual states such as hover or selection, check which layer or atlas is active, what it is anchored to, and whether the client variant overrides it.
 - Prefer reusing a complete permitted widget/template and its public documented API. Inspect its children, mixins, initialization, inherited scripts, input handling and loading context so reuse preserves the component's authored appearance and lifecycle. Use an existing suitable API instead of duplicating its behavior through guessed internals.
 - Check protected/forbidden status, real-ID requirements, shared caches/pools and load-on-demand dependencies before instantiation. If the complete component cannot safely serve addon-owned data, use ordinary addon-owned frames with its native artwork, authored geometry and draw layers. Build custom visuals only where suitable reusable pieces are unavailable or the product needs an extension; record why that fallback is necessary.

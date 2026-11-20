@@ -1,5 +1,9 @@
 # Standards changelog
 
+## 0.1.5 — 2026-11-20
+
+- Make Blizzard's native implementation the default for UI and behavior. Require tracing the exact client implementation when matching a Blizzard reference, and limit addon-owned implementation to gaps in native capabilities or addon access.
+
 ## 0.1.4 — 2026-11-20
 
 - Trace owner-supplied UI references to the exact widget and active visual state before implementation. Record concrete source evidence and any limits on verification or reuse.
