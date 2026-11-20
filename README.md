@@ -1,6 +1,6 @@
 # WoW Addon Standards
 
-Version **0.1.5** — updated 2026-11-21; originally extracted 2026-11-10 from an actively developed Forever addon. This is a portable starting kit, not a runtime library or an assertion of universal Blizzard API compatibility.
+Version **0.1.6** — updated 2026-11-21; originally extracted 2026-11-10 from an actively developed Forever addon. This is a portable starting kit, not a runtime library or an assertion of universal Blizzard API compatibility.
 
 ## Contents
 
